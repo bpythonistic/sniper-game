@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [tasks]
 compile-ts = "tsc"
+watch-ts = "tsc -w"
 update-nodejs = "npm install --save-dev && tsc"
 serve-dev = "(pixi run watch-ts &) && (npm run dev &)"
 build = "npm run build"
