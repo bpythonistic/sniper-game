@@ -48,8 +48,7 @@ cd sniper-game
 # Initialize the environment and install dependencies
 pixi install
 
-# Create .env files
-cp front-end/src/.env.example front-end/src/.env
+# Create .env file
 cp back-end/app/.env.example back-end/app/.env
 
 # Run the API server
@@ -76,11 +75,16 @@ The game client will be available at [http://localhost:5173](http://localhost:51
 
 ## 3. Database Setup
 
-Ensure your PostgreSQL service is running. Create a database named nyquist_db and update your .env file in the backend folder with:
+Ensure PostgreSQL is installed and added to your system path, then run:
+
+```bash
+pixi run create-db
+```
+
+Also be sure to add the following entry to `back-end/app/.env`, replacing `{password}` with your `PostgreSQL` admin password:
 
 ```text
-DATABASE_NAME=nyquist_db
-DATABASE_USER=postgres
+DATABASE_PASSWORD="{password}"
 ```
 
 ## 🗓 Development Roadmap
