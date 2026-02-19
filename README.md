@@ -50,9 +50,6 @@ pixi install
 
 # Create .env file
 cp back-end/app/.env.example back-end/app/.env
-
-# Run the API server
-pixi run launch-backend
 ```
 
 The API will be available at [http://localhost:8000](http://localhost:8000).
@@ -66,25 +63,27 @@ Once the API server is running, open a new terminal before proceeding.
 ```bash
 # Install dependencies
 pixi run update-nodejs
-
-# Start the development server
-pixi run serve-dev
 ```
 
 The game client will be available at [http://localhost:5173](http://localhost:5173)
 
 ## 3. Database Setup
 
-Ensure PostgreSQL is installed and added to your system path, then run:
+Ensure PostgreSQL is not already globally installed and running before proceeding.
 
 ```bash
+pixi run init-db
+pixi run start-db-server
 pixi run create-db
 ```
 
-Also be sure to add the following entry to `back-end/app/.env`, replacing `{password}` with your `PostgreSQL` admin password:
+## 4. Launching Development Application
 
-```text
-DATABASE_PASSWORD="{password}"
+```bash
+# Run the API server
+pixi run launch-backend
+# Start the development client
+pixi run start-dev
 ```
 
 ## 🗓 Development Roadmap

@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # import json
 import psycopg
 from dotenv import load_dotenv
-from schema import User, RootModel
+from app.schema import User, RootModel
 
 load_dotenv()
 

@@ -6,13 +6,16 @@ platforms = ["win-64"]
 version = "0.1.0"
 
 [tasks]
-create-db = "psql -U postgres -c 'CREATE DATABASE nyquist_db'"
+init-db = "mkdir -p ~/postgresql && initdb -D ~/postgresql"
+start-db-server = "pg_ctl -D ~/postgresql -l ~/postgresql/logfile start"
+create-db = "createuser postgres && createdb --owner postgres nyquist_db"
 compile-ts = "tsc"
 watch-ts = "tsc -w"
 update-nodejs = "npm install --save-dev && tsc"
-serve-dev = "(pixi run watch-ts &) && (npm run dev &)"
+start-dev = "(pixi run watch-ts &) && (npm run dev &)"
 build = "npm run build"
-launch-backend = "cd back-end && uvicorn app.main:app --reload"
+launch-backend = "(pixi run start-db-server &) && cd back-end && uvicorn app.main:app --reload"
+read-db-logs = "cat ~/postgresql/logfile"
 
 [dependencies]
 nodejs = ">=25.6.0,<25.7"
@@ -25,3 +28,4 @@ pyyaml = ">=6.0.3,<7"
 pytest = ">=9.0.2,<10"
 coverage = ">=7.13.4,<8"
 python-dotenv = ">=1.2.1,<2"
+postgresql = ">=18.2,<19"
