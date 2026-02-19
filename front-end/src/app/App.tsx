@@ -1,7 +1,11 @@
+import TitleMessage from "../components/TitleMessage";
 import WaveformVisualizer from "../components/WaveformVisualizer";
 
 export default function MyApp() {
     return (
-        <WaveformVisualizer />
+        <div className="min-h-screen bg-gray-100 p-4">
+            <TitleMessage />
+            <WaveformVisualizer />
+        </div>
     );
 }

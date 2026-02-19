@@ -6,6 +6,7 @@ platforms = ["win-64"]
 version = "0.1.0"
 
 [tasks]
+create-db = "psql -U postgres -c 'CREATE DATABASE nyquist_db'"
 compile-ts = "tsc"
 watch-ts = "tsc -w"
 update-nodejs = "npm install --save-dev && tsc"
