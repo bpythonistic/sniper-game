@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # import json
 import psycopg
 from dotenv import load_dotenv
-from .schema import User, RootModel
+from schema import User, RootModel
 
 load_dotenv()
 
@@ -87,8 +87,7 @@ def execute_fetch_query(query: str, params: tuple = ()) -> Generator[tuple, None
     """
     with get_db_connection() as (conn, cur):
         cur.execute(query, params)
-        for row in cur.fetchall():
-            yield row
+        yield from cur.fetchall()
         conn.commit()
 
 
@@ -103,7 +102,7 @@ def read_root() -> RootModel:
     query = "CREATE TABLE IF NOT EXISTS users (id UUID PRIMARY KEY, name TEXT NOT NULL)"
     execute_write_query(query)
     query = "SELECT id, name FROM users LIMIT 1"
-    users = [user for user in execute_fetch_query(query)]
+    users = list(execute_fetch_query(query))
     default_user = (
         User(id=users[0][0], name=users[0][1]) if users else User(name="Default User")
     )
