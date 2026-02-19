@@ -20,5 +20,20 @@ class User(BaseModel):
     :param name: The name of the user. This field is required.
     :type name: str
     """
+
     id: UUID = Field(..., default_factory=uuid4)
     name: str
+
+
+class RootModel(BaseModel):
+    """
+    Docstring for RootModel.
+
+    :param message: A welcome message for the API.
+    :type message: str
+    :param user: A User object representing the default user.
+    :type user: User
+    """
+
+    message: str = "Welcome to the FastAPI application!"
+    user: User
