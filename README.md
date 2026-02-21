@@ -77,7 +77,7 @@ pixi run start-db-server
 pixi run create-db
 ```
 
-## 4. Launching Development Application
+## 4. Launch Development Application
 
 ```bash
 # Run the API server
@@ -86,11 +86,25 @@ pixi run launch-backend
 pixi run start-dev
 ```
 
+## 5. Account for Schema Updates
+
+```bash
+# Clear the contents of an outdated database
+pixi run clear-db
+```
+
+## 6. View PostgreSQL Logfile (for debugging)
+
+```bash
+# Read the contents of the PostgreSQL server's logfile
+pixi run read-db-logs
+```
+
 ## 🗓 Development Roadmap
 
 ### Phase 1: The Signal Engine (Current)
 
-- [ ] Implement SignalGenerator class in Python.
+- [x] Implement SignalGenerator class in Python.
 
 - [ ] Build the sampling logic (Discrete vs. Continuous).
 

@@ -7,7 +7,8 @@ version = "0.1.0"
 
 [tasks]
 init-db = "mkdir -p ~/postgresql && initdb -D ~/postgresql"
-start-db-server = "pg_ctl -D ~/postgresql -l ~/postgresql/logfile start"
+check-db-server = "psql -U postgres -d nyquist_db -c 'CREATE TABLE Test (id INT PRIMARY KEY);DROP TABLE Test' > /dev/null"
+start-db-server = "(pixi run check-db-server) || pg_ctl start -D ~/postgresql -o '-h localhost -p 5432' -l ~/postgresql/logfile"
 create-db = "createuser postgres && createdb --owner postgres nyquist_db"
 compile-ts = "tsc"
 watch-ts = "tsc -w"
@@ -16,6 +17,7 @@ start-dev = "(pixi run watch-ts &) && (npm run dev &)"
 build = "npm run build"
 launch-backend = "(pixi run start-db-server &) && cd back-end && uvicorn app.main:app --reload"
 read-db-logs = "cat ~/postgresql/logfile"
+clear-db = "(pixi run start-db-server &) && psql -U postgres -d nyquist_db -c 'DROP SCHEMA public CASCADE;CREATE SCHEMA public;'"
 
 [dependencies]
 nodejs = ">=25.6.0,<25.7"
@@ -29,3 +31,4 @@ pytest = ">=9.0.2,<10"
 coverage = ">=7.13.4,<8"
 python-dotenv = ">=1.2.1,<2"
 postgresql = ">=18.2,<19"
+websockets = ">=16.0,<17"
