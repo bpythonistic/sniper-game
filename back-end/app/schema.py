@@ -78,13 +78,15 @@ class UpdateScopeModel(BaseModel):
 
 class ScopeOutputModel(BaseModel):
     """
-    Docstring for ScopeOutputWSModel.
+    Docstring for ScopeOutputModel.
 
-    :param message: A message indicating the status of the sniper scope signal generation.
+    :param message: A message indicating
+        the status of the sniper scope signal generation.
     :type message: str
     :param frequency: The frequency of the sine wave in Hz.
     :type frequency: float
-    :param time_values: A list of time values corresponding to the generated sniper scope signal.
+    :param time_values: A list of time values
+        corresponding to the generated sniper scope signal.
     :type time_values: list[float]
     :param signal_values: The generated sniper scope signal as a list of float values.
     :type signal_values: list[float]

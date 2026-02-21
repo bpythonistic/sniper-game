@@ -32,3 +32,10 @@ coverage = ">=7.13.4,<8"
 python-dotenv = ">=1.2.1,<2"
 postgresql = ">=18.2,<19"
 websockets = ">=16.0,<17"
+ruff = ">=0.15.2,<0.16"
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.format]
+docstring-code-format = true
