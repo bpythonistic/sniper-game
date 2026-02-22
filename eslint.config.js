@@ -1,4 +1,7 @@
 import { defineConfig } from "eslint-define-config";
+import { react } from "eslint-plugin-react";
+import { reacthooks } from "eslint-plugin-react-hooks";
+import { prettier } from "eslint-plugin-prettier";
 
 export default defineConfig({
     // extends: [
@@ -12,14 +15,11 @@ export default defineConfig({
     //     "prettier",
     // ],
     // parser: "@typescript-eslint/parser",
-    plugins: [
-        "@typescript-eslint",
-        "react",
-        "react-hooks",
-        "import",
-        "jsx-a11y",
-        "prettier",
-    ],
+    plugins: {
+        react: react,
+        reacthooks: reacthooks,
+        prettier: prettier,
+    },
     settings: {
         react: {
             version: "detect",
