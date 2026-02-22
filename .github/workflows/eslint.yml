@@ -9,4 +9,4 @@ jobs:
               with:
                   node-version: "25"
             - run: npm install
-            - run: npx eslint . --config .eslintrc.js
+            - run: npx eslint . --config eslint.config.js
