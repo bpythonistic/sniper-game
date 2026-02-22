@@ -1,7 +1,6 @@
 import { defineConfig } from "eslint-define-config";
 import { react } from "eslint-plugin-react";
 import { reacthooks } from "eslint-plugin-react-hooks";
-import { prettier } from "eslint-plugin-prettier";
 
 export default defineConfig({
     // extends: [
@@ -18,7 +17,6 @@ export default defineConfig({
     plugins: {
         react: react,
         reacthooks: reacthooks,
-        prettier: prettier,
     },
     settings: {
         react: {
