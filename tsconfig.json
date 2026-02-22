@@ -29,20 +29,13 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "composite": false,
     "noEmit": false,
     "incremental": true,
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "include": [
-    "./src/**/*",
-    "vite.config.ts"
-  ]
+  "include": ["./src/**/*", "vite.config.ts"]
 }

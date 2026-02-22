@@ -6,7 +6,7 @@ This project is built to demonstrate full-stack proficiency with **Python**, **F
 
 ## 🎮 The Core Concept
 
-In most games, what you see is what you get. In *Nyquist's Sniper*, what you see is only a **discrete sample** of reality.
+In most games, what you see is what you get. In _Nyquist's Sniper_, what you see is only a **discrete sample** of reality.
 
 - **The Enemy:** Continuous waveforms (Sine, Square, Sawtooth) moving at specific frequencies `f`.
 - **The Weapon:** Your Sampling Rate `fs`.
@@ -132,9 +132,10 @@ pixi run read-db-logs
 
 1. Fork the project
 2. Create your feature branch (git checkout -b feature/AmazingFeature)
-3. Commit your changes (git commit -m 'Add some AmazingFeature')
-4. Push to the branch (git push origin feature/AmazingFeature)
-5. Open a Pull Request
+3. Install pre-commit Git hooks: `pixi run install-git-hooks`
+4. Commit your changes (git commit -m 'Add some AmazingFeature')
+5. Push to the branch (git push origin feature/AmazingFeature)
+6. Open a Pull Request
 
 ## 📄 License
 

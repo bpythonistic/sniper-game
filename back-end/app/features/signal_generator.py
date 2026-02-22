@@ -62,9 +62,7 @@ def new_scope(
         :rtype: Callable[[float], Callable[[float], float]]
         """
 
-        return lambda frequency: generate_sine_function(
-            frequency, amplitude, phase
-        )
+        return lambda frequency: generate_sine_function(frequency, amplitude, phase)
 
     try:
         yield update_scope(amplitude, phase)

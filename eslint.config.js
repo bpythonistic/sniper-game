@@ -1,26 +1,30 @@
-import { defineConfig } from "eslint-define-config";
-import react from "eslint-plugin-react";
-import reacthooks from "eslint-plugin-react-hooks";
+import { defineConfig } from 'eslint-define-config';
+import react from 'eslint-plugin-react';
+import reacthooks from 'eslint-plugin-react-hooks';
+import reactrefresh from 'eslint-plugin-react-refresh';
+import typescript from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
+import prettier from 'eslint-plugin-prettier';
+import plugin from 'eslint-plugin-import';
+import a11y from 'eslint-plugin-jsx-a11y';
 
 export default defineConfig({
-    // extends: [
-    //     "eslint:recommended",
-    //     "plugin:react/recommended",
-    //     "plugin:react-hooks/recommended",
-    //     "plugin:@typescript-eslint/recommended",
-    //     "plugin:import/errors",
-    //     "plugin:import/warnings",
-    //     "plugin:jsx-a11y/recommended",
-    //     "prettier",
-    // ],
-    // parser: "@typescript-eslint/parser",
-    plugins: {
-        react: react,
-        reacthooks: reacthooks,
+  files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+  languageOptions: {
+    parser: parser,
+  },
+  plugins: {
+    react: react,
+    reacthooks: reacthooks,
+    typescript: typescript,
+    reactrefresh: reactrefresh,
+    plugin: plugin,
+    a11y: a11y,
+    prettier: prettier,
+  },
+  settings: {
+    react: {
+      version: 'detect',
     },
-    settings: {
-        react: {
-            version: "detect",
-        },
-    },
+  },
 });

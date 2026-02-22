@@ -82,9 +82,7 @@ def execute_write_query(query: str, params: tuple = ()):
         conn.commit()
 
 
-def execute_fetch_query(
-    query: str, params: tuple = ()
-) -> Generator[tuple, None, None]:
+def execute_fetch_query(query: str, params: tuple = ()) -> Generator[tuple, None, None]:
     """
     Executes a SQL query that retrieves data with the given parameters.
 
@@ -114,13 +112,9 @@ def read_root() -> RootModel:
     query = "SELECT id, name FROM users"
     users = list(execute_fetch_query(query))
     default_user = (
-        User(id=users[-1][0], name=users[-1][1])
-        if users
-        else User(name="Default User")
+        User(id=users[-1][0], name=users[-1][1]) if users else User(name="Default User")
     )
-    return RootModel(
-        message="Welcome to the FastAPI application!", user=default_user
-    )
+    return RootModel(message="Welcome to the FastAPI application!", user=default_user)
 
 
 @app.post("/create_user", status_code=201)
@@ -187,9 +181,7 @@ def create_scope(scope: ScopeModel) -> ScopeModel:
             scope.phase,
         ),
     )
-    query = (
-        "SELECT id, user, frequency, amplitude, phase FROM scopes WHERE id = %s"
-    )
+    query = "SELECT id, user, frequency, amplitude, phase FROM scopes WHERE id = %s"
     for row in execute_fetch_query(query, (scope.id,)):
         if row[0] == scope.id:
             return ScopeModel(
@@ -199,9 +191,7 @@ def create_scope(scope: ScopeModel) -> ScopeModel:
                 amplitude=row[3],
                 phase=row[4],
             )
-    raise HTTPException(
-        status_code=404, detail="Scope not found after creation"
-    )
+    raise HTTPException(status_code=404, detail="Scope not found after creation")
 
 
 @app.get("/scopes")
