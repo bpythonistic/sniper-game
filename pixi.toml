@@ -18,7 +18,8 @@ build = "npm run build"
 launch-backend = "(pixi run start-db-server &) && cd back-end && uvicorn app.main:app --reload"
 read-db-logs = "cat ~/postgresql/logfile"
 clear-db = "(pixi run start-db-server &) && psql -U postgres -d nyquist_db -c 'DROP SCHEMA public CASCADE;CREATE SCHEMA public;'"
-install-git-hooks = "npx husky add .husky/pre-commit 'npx lint-staged'"
+pre-commit = "npx lint-staged && ruff check --fix && ruff format"
+
 
 [dependencies]
 nodejs = "==24.13.1"
