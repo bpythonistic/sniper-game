@@ -6,7 +6,7 @@ This project is built to demonstrate full-stack proficiency with **Python**, **F
 
 ## 🎮 The Core Concept
 
-In most games, what you see is what you get. In *Nyquist's Sniper*, what you see is only a **discrete sample** of reality.
+In most games, what you see is what you get. In _Nyquist's Sniper_, what you see is only a **discrete sample** of reality.
 
 - **The Enemy:** Continuous waveforms (Sine, Square, Sawtooth) moving at specific frequencies `f`.
 - **The Weapon:** Your Sampling Rate `fs`.
