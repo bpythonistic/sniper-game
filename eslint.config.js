@@ -2,7 +2,6 @@ import { defineConfig } from "eslint-define-config";
 import react from "eslint-plugin-react";
 import reacthooks from "eslint-plugin-react-hooks";
 import reactrefresh from "eslint-plugin-react-refresh";
-import vitejs from "@vitejs/plugin-react";
 import typescript from "@typescript-eslint/eslint-plugin";
 import parser from "@typescript-eslint/parser";
 import prettier from "eslint-plugin-prettier";
@@ -21,7 +20,6 @@ export default defineConfig({
         reactrefresh: reactrefresh,
         plugin: plugin,
         a11y: a11y,
-        vitejs: vitejs,
         prettier: prettier,
     },
     settings: {
