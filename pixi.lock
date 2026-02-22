@@ -58,7 +58,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/markupsafe-3.0.3-pyh7db6752_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/mkl-2025.3.0-hac47afa_455.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-25.6.0-he453025_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-24.13.1-he453025_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/numpy-2.4.2-py314h06c3c77_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/openssl-3.6.1-hf411b9b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.0-pyhcf101f3_0.conda
@@ -726,13 +726,13 @@ packages:
   license_family: Proprietary
   size: 100224829
   timestamp: 1767634557029
-- conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-25.6.0-he453025_0.conda
-  sha256: 94576d4a299906d5c70433651064b99cf4acf66227a1bf54321211a9ecd01fb1
-  md5: ab691b6dad3762d3580ff42752fd38cf
+- conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-24.13.1-he453025_0.conda
+  sha256: 5a20769e6e50ae18f337d51f94ddcaeeb0ce15e5d71368b13e10e065fd9e7a79
+  md5: 757de06ef3fa0d4343efec1a0f47ccb0
   license: MIT
   license_family: MIT
-  size: 31092662
-  timestamp: 1770638766628
+  size: 30489432
+  timestamp: 1771438350803
 - conda: https://conda.anaconda.org/conda-forge/win-64/numpy-2.4.2-py314h06c3c77_1.conda
   sha256: 34fc25b81cfa987e1825586ddb1a4ac76a246fdef343c9171109017674ad6503
   md5: 2fccd2c4e9feb4e4c2a90043015525d6

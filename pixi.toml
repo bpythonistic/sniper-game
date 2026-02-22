@@ -20,7 +20,7 @@ read-db-logs = "cat ~/postgresql/logfile"
 clear-db = "(pixi run start-db-server &) && psql -U postgres -d nyquist_db -c 'DROP SCHEMA public CASCADE;CREATE SCHEMA public;'"
 
 [dependencies]
-nodejs = ">=25.6.0,<25.7"
+nodejs = "==24.13.1"
 psycopg = ">=3.3.2,<4"
 fastapi = ">=0.129.0,<0.130"
 uvicorn = ">=0.41.0,<0.42"

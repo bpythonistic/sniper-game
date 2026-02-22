@@ -4,9 +4,17 @@ jobs:
     eslint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
               with:
-                  node-version: "25"
-            - run: npm install
-            - run: npx eslint . --config eslint.config.js
+                  node-version: "24"
+                  cache: "npm"
+
+            - name: Install Dependencies
+              run: npm ci
+
+            - name: Run ESLint
+              run: npx eslint . --config eslint.config.js
