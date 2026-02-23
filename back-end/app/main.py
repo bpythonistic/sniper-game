@@ -31,6 +31,10 @@ load_dotenv()
 DATABASE_NAME = "nyquist_db"
 DATABASE_USER = "postgres"
 
+DEFAULT_CONNECTION_STRING = (
+    f"dbname={DATABASE_NAME} user={DATABASE_USER} host=localhost"
+)
+
 app = FastAPI(
     title="Sniper Game API",
     description="API for the Sniper Game backend",
@@ -52,23 +56,32 @@ app.add_middleware(
 
 
 @contextmanager
-def get_db_connection() -> Generator[
-    tuple[psycopg.Connection, psycopg.Cursor], None, None
-]:
+def get_db_connection(
+    conn_override: psycopg.Connection | None = None,
+    cur_override: psycopg.Cursor | None = None,
+) -> Generator[tuple[psycopg.Connection, psycopg.Cursor], None, None]:
     """
     Context manager for database connection.
 
+    :param conn_override: An optional psycopg.Connection object to use instead of creating a new one.
+    :type conn_override: psycopg.Connection | None
+    :param cur_override: An optional psycopg.Cursor object to use instead of creating a new one.
+    :type cur_override: psycopg.Cursor | None
     :return: A generator yielding a tuple of (Connection, Cursor).
     :rtype: Generator[tuple[psycopg.Connection, psycopg.Cursor], None, None]
     """
-    with psycopg.connect(
-        f"dbname={DATABASE_NAME} user={DATABASE_USER} host=localhost"
-    ) as conn:
-        with conn.cursor() as cur:
-            yield conn, cur
+    if conn_override is not None or cur_override is not None:
+        yield conn_override, cur_override
+    else:
+        with psycopg.connect(DEFAULT_CONNECTION_STRING) as conn:
+            with conn.cursor() as cur:
+                yield conn, cur
 
 
-def execute_write_query(query: str, params: tuple = ()):
+def execute_write_query(
+    query: str,
+    params: tuple = (),
+) -> None:
     """
     Executes a SQL query that modifies data with the given parameters.
 
@@ -82,7 +95,10 @@ def execute_write_query(query: str, params: tuple = ()):
         conn.commit()
 
 
-def execute_fetch_query(query: str, params: tuple = ()) -> Generator[tuple, None, None]:
+def execute_fetch_query(
+    query: str,
+    params: tuple = (),
+) -> Generator[tuple, None, None]:
     """
     Executes a SQL query that retrieves data with the given parameters.
 
@@ -99,6 +115,17 @@ def execute_fetch_query(query: str, params: tuple = ()) -> Generator[tuple, None
         conn.commit()
 
 
+class APIEndpointUrls:
+    """Class containing API endpoint URLs as class variables."""
+
+    ROOT = "/"
+    CREATE_USER = "/create_user"
+    GET_USERS = "/users"
+    CREATE_SCOPE = "/create_scope"
+    GET_SCOPES = "/scopes"
+    WEBSOCKET_SCOPE = "/ws/scope/{scope_id}"
+
+
 @app.get("/")
 def read_root() -> RootModel:
     """
@@ -112,9 +139,13 @@ def read_root() -> RootModel:
     query = "SELECT id, name FROM users"
     users = list(execute_fetch_query(query))
     default_user = (
-        User(id=users[-1][0], name=users[-1][1]) if users else User(name="Default User")
+        User(id=users[-1][0], name=users[-1][1])
+        if users
+        else User(name="Default User")
     )
-    return RootModel(message="Welcome to the FastAPI application!", user=default_user)
+    return RootModel(
+        message="Welcome to the FastAPI application!", user=default_user
+    )
 
 
 @app.post("/create_user", status_code=201)
@@ -181,7 +212,9 @@ def create_scope(scope: ScopeModel) -> ScopeModel:
             scope.phase,
         ),
     )
-    query = "SELECT id, user, frequency, amplitude, phase FROM scopes WHERE id = %s"
+    query = (
+        "SELECT id, user, frequency, amplitude, phase FROM scopes WHERE id = %s"
+    )
     for row in execute_fetch_query(query, (scope.id,)):
         if row[0] == scope.id:
             return ScopeModel(
@@ -191,7 +224,9 @@ def create_scope(scope: ScopeModel) -> ScopeModel:
                 amplitude=row[3],
                 phase=row[4],
             )
-    raise HTTPException(status_code=404, detail="Scope not found after creation")
+    raise HTTPException(
+        status_code=404, detail="Scope not found after creation"
+    )
 
 
 @app.get("/scopes")

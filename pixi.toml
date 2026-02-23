@@ -36,6 +36,7 @@ postgresql = ">=18.2,<19"
 websockets = ">=16.0,<17"
 ruff = ">=0.15.2,<0.16"
 pre-commit = ">=4.5.1,<5"
+pytest-postgresql = ">=8.0.0,<9"
 
 [tool.ruff]
 line-length = 80
