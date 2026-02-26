@@ -133,9 +133,7 @@ class DataModel(BaseModel):
 
 
 @pytest.fixture(scope="function")
-def database_setup(
-    client: TestClient, request: pytest.FixtureRequest
-) -> DataModel:
+def database_setup(client: TestClient, request: pytest.FixtureRequest) -> DataModel:
     """
     Fixture for returning a database state based on the data fixture.
     """
