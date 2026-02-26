@@ -107,7 +107,7 @@ The database enforces persistence and the RPG mechanics of the application.
 
 - [Pixi](https://pixi.prefix.dev/latest/#installation)
 
-### 1. Backend Setup
+### Backend Setup
 
 ```bash
 # Clone the repository
@@ -125,7 +125,7 @@ The API will be available at [http://localhost:8000](http://localhost:8000).
 
 You can view the interactive docs at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### 2. Frontend Setup
+### Frontend Setup
 
 Once the API server is running, open a new terminal before proceeding.
 
@@ -136,7 +136,7 @@ pixi run update-nodejs
 
 The game client will be available at [http://localhost:5173](http://localhost:5173)
 
-### 3. Database Setup
+### Database Setup
 
 Ensure PostgreSQL is not already globally installed and running before proceeding.
 
@@ -146,7 +146,7 @@ pixi run start-db-server
 pixi run create-db
 ```
 
-### 4. Launch Development Application
+### Launch Development Application
 
 ```bash
 # Run the API server
@@ -155,14 +155,20 @@ pixi run launch-backend
 pixi run start-dev
 ```
 
-### 5. Account for Schema Updates
+### Run Pytest
+
+```bash
+pixi run backend-tests
+```
+
+### Account for Schema Updates
 
 ```bash
 # Clear the contents of an outdated database
 pixi run clear-db
 ```
 
-### 6. View PostgreSQL Logfile (for debugging)
+### View PostgreSQL Logfile (for debugging)
 
 ```bash
 # Read the contents of the PostgreSQL server's logfile
