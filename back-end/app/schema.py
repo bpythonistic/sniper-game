@@ -5,15 +5,26 @@ It includes:
 - A User model with an auto-generated UUID and a name field.
 """
 
+import os
 from uuid import uuid4
+from typing import Annotated, Generator
 
 # from typing import Optional
-from pydantic import BaseModel, Field
+from fastapi.params import Depends
+from pydantic import BaseModel
+from sqlmodel import SQLModel, Field, Session, create_engine
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DEFAULT_CONNECTION_STRING = os.getenv(
+    "DATABASE_URL", "postgresql+psycopg://postgres@localhost:5432/nyquist_db"
+)
 
 
-class User(BaseModel):
+class User(SQLModel, table=True):
     """
-    Docstring for User model.
+    Docstring for User SQL model.
 
     :param id: The unique identifier for the user, auto-generated as a UUID.
     :type id: str
@@ -21,8 +32,8 @@ class User(BaseModel):
     :type name: str
     """
 
-    id: str = Field(default_factory=lambda: str(uuid4()))
-    name: str = "Default User"
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
+    name: str = Field(default="Default User", index=True)
 
 
 class RootModel(BaseModel):
@@ -30,16 +41,18 @@ class RootModel(BaseModel):
     Docstring for RootModel.
 
     :param message: A welcome message for the API.
+        This is set to "Welcome to the FastAPI application!" by default.
     :type message: str
-    :param user: A User object representing the default user.
-    :type user: User
+    :param username: The username of the default user.
+        This is set to "Default User" if no users are found in the database.
+    :type username: str
     """
 
     message: str = "Welcome to the FastAPI application!"
-    user: User
+    username: str = "Default User"
 
 
-class ScopeModel(BaseModel):
+class ScopeModel(SQLModel, table=True):
     """
     Docstring for ScopeModel.
 
@@ -55,11 +68,11 @@ class ScopeModel(BaseModel):
     :type phase: float
     """
 
-    id: str = Field(default_factory=lambda: str(uuid4()))
-    user: User
-    frequency: float
-    amplitude: float
-    phase: float = 0.0
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
+    user_id: str = Field(foreign_key="user.id")
+    frequency: float = Field(..., index=True)
+    amplitude: float = Field(..., index=True)
+    phase: float = Field(default=0.0, index=True)
 
 
 class UpdateScopeModel(BaseModel):
@@ -96,3 +109,22 @@ class ScopeOutputModel(BaseModel):
     frequency: float
     time_values: list[float]
     signal_values: list[float]
+
+
+def get_session() -> Generator[Session, None, None]:
+    """
+    Context manager for database connection.
+
+    This function creates a connection to the database and yields a session object for executing queries.
+    It ensures that the connection is properly closed after use.
+
+    :yield: A tuple containing the database session and the session object itself.
+    :rtype: Generator[tuple[Session, Session], None, None]
+    """
+    engine = create_engine(DEFAULT_CONNECTION_STRING)
+    SQLModel.metadata.create_all(engine)
+    with Session(engine) as session:
+        yield session
+
+
+SessionDep = Annotated[Session, Depends(get_session)]

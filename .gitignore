@@ -1,8 +1,8 @@
-# pixi environments
-.pixi/*
-!.pixi/config.toml
 node_modules/
 dist/
 __pycache__/
 .env
 .vscode
+postgresql/
+.coverage
+*.db

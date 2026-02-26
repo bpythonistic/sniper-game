@@ -1,0 +1,21 @@
+data:
+  ground_truth:
+    schemas:
+      - User
+      - RootModel
+      - ScopeModel
+      - UpdateScopeModel
+      - ScopeOutputModel
+    endpoints:
+      - endpoint: /
+        method: GET
+        input_model:
+        output_model: RootModel
+      - endpoint: /create_user
+        method: POST
+        input_model: User
+        output_model: User
+      - endpoint: /create_scope
+        method: POST
+        input_model: ScopeModel
+        output_model: ScopeModel
