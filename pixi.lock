@@ -63,7 +63,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/markdown-it-py-4.0.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/markupsafe-3.0.3-pyh7db6752_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mdurl-0.1.2-pyhd8ed1ab_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/mirakuru-3.0.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/mkl-2025.3.0-hac47afa_455.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nodeenv-1.10.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/nodejs-24.13.1-he453025_0.conda
@@ -72,10 +71,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/platformdirs-4.9.2-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pluggy-1.6.0-pyhf9edf01_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/port-for-1.0.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/postgresql-18.2-h4d7445c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pre-commit-4.5.1-pyha770c72_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/psutil-7.2.2-py314hc5dbbe4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/psycopg-3.3.3-pyh848bd53_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/psycopg-c-3.3.3-py314hadde02f_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pycparser-2.22-pyh29332c3_1.conda
@@ -86,7 +83,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.19.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-9.0.2-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-cov-7.0.0-pyhcf101f3_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-postgresql-8.0.0-pyh0706c54_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/python-3.14.3-h4b44e0e_101_cp314.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/python-dotenv-1.2.1-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/python-multipart-0.0.22-pyhcf101f3_0.conda
@@ -795,16 +791,6 @@ packages:
   license_family: MIT
   size: 14465
   timestamp: 1733255681319
-- conda: https://conda.anaconda.org/conda-forge/noarch/mirakuru-3.0.2-pyhd8ed1ab_0.conda
-  sha256: 243c232dd0345f3e48e4f7cd5f321c5563f02fae270011894715e34921f5716a
-  md5: e5355958001d1e3bf8d8a1b9194fac8f
-  depends:
-  - psutil >=4.0.0
-  - python >=3.10
-  license: LGPL-3.0-or-later
-  license_family: LGPL
-  size: 26077
-  timestamp: 1770851501593
 - conda: https://conda.anaconda.org/conda-forge/win-64/mkl-2025.3.0-hac47afa_455.conda
   sha256: b2b4c84b95210760e4d12319416c60ab66e03674ccdcbd14aeb59f82ebb1318d
   md5: fd05d1e894497b012d05a804232254ed
@@ -895,15 +881,6 @@ packages:
   license_family: MIT
   size: 25877
   timestamp: 1764896838868
-- conda: https://conda.anaconda.org/conda-forge/noarch/port-for-1.0.0-pyhd8ed1ab_0.conda
-  sha256: e1ac8b3fbfdad600f789cd57b4a976eacb43865291af60dfed17bcb1c211bd8d
-  md5: 8e5a9b691bf4963e850346263dc0b577
-  depends:
-  - python >=3.10
-  license: MIT
-  license_family: MIT
-  size: 21275
-  timestamp: 1759237677822
 - conda: https://conda.anaconda.org/conda-forge/win-64/postgresql-18.2-h4d7445c_0.conda
   sha256: 5961852631f44e2cf6158c0fc7720df8f065aa8c72064bfff33432cd7325ed6a
   md5: a9e81b3a2f61321dd871eb5403861f99
@@ -938,19 +915,6 @@ packages:
   license_family: MIT
   size: 200827
   timestamp: 1765937577534
-- conda: https://conda.anaconda.org/conda-forge/win-64/psutil-7.2.2-py314hc5dbbe4_0.conda
-  sha256: 17c8274ce5a32c9793f73a5a0094bd6188f3a13026a93147655143d4df034214
-  md5: fd539ac231820f64066839251aa9fa48
-  depends:
-  - python
-  - vc >=14.3,<15
-  - vc14_runtime >=14.44.35208
-  - ucrt >=10.0.20348.0
-  - python_abi 3.14.* *_cp314
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 249950
-  timestamp: 1769678167309
 - conda: https://conda.anaconda.org/conda-forge/noarch/psycopg-3.3.3-pyh848bd53_0.conda
   sha256: 7048838d518c2dad46f07d57b9a03f0fa1a9b6ce734ecc8e127e6c23dfefa54e
   md5: 17e4acfeab4c3a4ce6c74a3455cdc9e9
@@ -1091,20 +1055,6 @@ packages:
   license_family: MIT
   size: 29016
   timestamp: 1757612051022
-- conda: https://conda.anaconda.org/conda-forge/noarch/pytest-postgresql-8.0.0-pyh0706c54_0.conda
-  sha256: 74972bb64d6c9525473381923ddf3cabb144f9df394a56d084be82d8873e28b1
-  md5: f38b1057e276dead0d7d0490ba9cf4f4
-  depends:
-  - mirakuru
-  - port-for >=0.7.3
-  - psycopg >=3.0.0
-  - pytest >=6.2
-  - python >=3.8
-  - setuptools
-  license: LGPL-3.0-or-later
-  license_family: LGPL
-  size: 37604
-  timestamp: 1769300488376
 - conda: https://conda.anaconda.org/conda-forge/win-64/python-3.14.3-h4b44e0e_101_cp314.conda
   build_number: 101
   sha256: 3f99d83bfd95b9bdae64a42a1e4bf5131dc20b724be5ac8a9a7e1ac2c0f006d7
@@ -1251,6 +1201,7 @@ packages:
   - ucrt >=10.0.20348.0
   - python_abi 3.14.* *_cp314
   license: MIT
+  license_family: MIT
   size: 3979804
   timestamp: 1771967329879
 - conda: https://conda.anaconda.org/conda-forge/win-64/sqlite-3.51.2-hdb435a2_0.conda

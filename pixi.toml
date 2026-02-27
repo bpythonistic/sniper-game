@@ -6,19 +6,26 @@ platforms = ["win-64"]
 version = "0.1.0"
 
 [tasks]
-init-db = "mkdir -p ./postgresql && initdb -D ./postgresql"
+init-db = "(cd ./postgresql/base) || mkdir -p ./postgresql && initdb -D ./postgresql"
 check-db-server = "psql -U postgres -d nyquist_db -c 'CREATE TABLE Test (id INT PRIMARY KEY);DROP TABLE Test' > /dev/null"
 start-db-server = "(pixi run check-db-server) || pg_ctl start -D ./postgresql -o '-h localhost -p 5432' -l ./postgresql/logfile"
 stop-db-server = "(pixi run check-db-server) || pg_ctl stop -D ./postgresql"
-create-db = "createuser postgres && createdb --owner postgres nyquist_db"
+create-db = { cmd = "createuser postgres && createdb --owner postgres nyquist_db", depends-on = [
+    "init-db",
+    "start-db-server",
+] }
 compile-ts = "tsc"
 watch-ts = "tsc -w"
 update-nodejs = "npm install --save-dev && tsc"
 start-dev = "(pixi run watch-ts &) && (npm run dev &)"
 build = "npm run build"
-launch-backend = "pixi run start-db-server && cd back-end && uvicorn app.main:app --reload"
+launch-backend = { cmd = "cd back-end && uvicorn app.main:app --reload --env-file app/.env", depends-on = [
+    "start-db-server",
+] }
 read-db-logs = "cat ./postgresql/logfile"
-clear-db = "pixi run start-db-server && psql -U postgres -d nyquist_db -c 'DROP SCHEMA public CASCADE;CREATE SCHEMA public;'"
+clear-db = { cmd = "psql -U postgres -d nyquist_db -c 'DROP SCHEMA public CASCADE;CREATE SCHEMA public;'", depends-on = [
+    "start-db-server",
+] }
 pre-commit = "npx lint-staged && ruff check --fix && ruff format --line-length 88"
 backend-tests = "pytest --cov=app 'back-end/tests/'"
 
@@ -35,12 +42,11 @@ postgresql = ">=18.2,<19"
 websockets = ">=16.0,<17"
 ruff = ">=0.15.2,<0.16"
 pre-commit = ">=4.5.1,<5"
-pytest-postgresql = ">=8.0.0,<9"
 sqlmodel = ">=0.0.37,<0.0.38"
+pytest-cov = ">=7.0.0,<8"
+sqlalchemy = ">=2.0.47,<3"
 sqlite = ">=3.51.2,<4"
 psycopg = ">=3.3.3,<4"
-sqlalchemy = ">=2.0.47,<3"
-pytest-cov = ">=7.0.0,<8"
 
 [tool.ruff]
 line-length = 80

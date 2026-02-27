@@ -141,8 +141,6 @@ The game client will be available at [http://localhost:5173](http://localhost:51
 Ensure PostgreSQL is not already globally installed and running before proceeding.
 
 ```bash
-pixi run init-db
-pixi run start-db-server
 pixi run create-db
 ```
 

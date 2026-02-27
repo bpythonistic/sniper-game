@@ -7,80 +7,13 @@ It includes tests for:
 - User authentication and management
 """
 
-from pathlib import Path
-from typing import Generator
-
 import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
-from sqlmodel import Session, create_engine, SQLModel
-from sqlalchemy.pool import StaticPool
-from yaml import safe_load
 
 import app.schema as sch
-from app.main import (
-    APIEndpointUrls,
-    app,
-)
-
-CONFIG_FILE_PATH = Path(__file__).parent / "testdata" / "testconfig.yaml"
-
-
-@pytest.fixture(name="session")
-def session_fixture() -> Generator[Session, None, None]:
-    """
-    Creates a fresh, in-memory SQLite database for every single test.
-    Using StaticPool ensures all threads share this exact connection.
-    """
-    engine = create_engine(
-        "sqlite:///:memory:",
-        connect_args={"check_same_thread": False},
-        poolclass=StaticPool,
-    )
-
-    # Create tables fresh
-    SQLModel.metadata.create_all(engine)
-
-    with Session(engine) as session:
-        yield session
-
-    # Teardown
-    SQLModel.metadata.drop_all(engine)
-    engine.dispose()
-
-
-@pytest.fixture(name="client")
-def client_fixture(session: Session) -> Generator[TestClient, None, None]:
-    """
-    Creates a TestClient that intercepts the API's database calls and
-    forces them to use our in-memory test session.
-    """
-
-    def get_session_override():
-        return session
-
-    # Force the FastAPI app to use our test session
-    app.dependency_overrides[sch.get_session] = get_session_override
-
-    client = TestClient(app)
-    yield client
-
-    # Clean up overrides after the test
-    app.dependency_overrides.clear()
-
-
-@pytest.fixture(scope="module")
-def config() -> dict:
-    """
-    Fixture for loading test data from a YAML file.
-
-    :return: A dictionary containing the test data.
-    :rtype: dict
-    """
-    with open(CONFIG_FILE_PATH, "r") as f:
-        data = safe_load(f)["data"]
-    return data
+from app.main import APIEndpointUrls
 
 
 class DataPair(BaseModel):
@@ -133,7 +66,9 @@ class DataModel(BaseModel):
 
 
 @pytest.fixture(scope="function")
-def database_setup(client: TestClient, request: pytest.FixtureRequest) -> DataModel:
+def database_setup(
+    client: TestClient, request: pytest.FixtureRequest
+) -> DataModel:
     """
     Fixture for returning a database state based on the data fixture.
     """
@@ -272,3 +207,71 @@ class TestEndpoints:
         assert len(output) == len(expected_users)
         for user in expected_users:
             assert any(user.name == output_user.name for output_user in output)
+
+    @pytest.mark.parametrize(
+        "database_setup",
+        [
+            DataModel(
+                users=[UserPair(input_data=sch.User(id="01", name="John Doe"))],
+                scopes=[
+                    ScopePair(
+                        input_data=sch.ScopeModel(
+                            user_id="01",
+                            frequency=1.0,
+                            amplitude=1.0,
+                            phase=0.0,
+                        )
+                    )
+                ],
+            ),
+            DataModel(
+                users=[UserPair(input_data=sch.User(id="02", name="John Doe"))],
+                scopes=[
+                    ScopePair(
+                        input_data=sch.ScopeModel(
+                            user_id="01",
+                            frequency=1.0,
+                            amplitude=1.0,
+                            phase=0.0,
+                        ),
+                    ),
+                    ScopePair(
+                        input_data=sch.ScopeModel(
+                            user_id="02",
+                            frequency=1.0,
+                            amplitude=1.0,
+                            phase=0.0,
+                        ),
+                    ),
+                ],
+            ),
+        ],
+        indirect=True,
+    )
+    def test_create_scope_endpoint(
+        self, client: TestClient, database_setup: DataModel
+    ) -> None:
+        """Test the create_scope endpoint of the API.
+
+        :param client: The TestClient instance for making requests to the API.
+        :type client: TestClient
+        :param database_setup: The current state of the database after setup.
+        :type database_setup: DataModel
+        """
+        response = client.get(APIEndpointUrls.GET_SCOPES)
+        assert response.status_code == status.HTTP_200_OK
+        output = response.json()
+        output = [sch.ScopeModel(**scope) for scope in output]
+        expected_scopes = [
+            scope.input_data
+            for scope in database_setup.scopes
+            if scope.expected_code == status.HTTP_201_CREATED
+        ]
+        assert len(output) == len(expected_scopes)
+        for scope in expected_scopes:
+            assert any(
+                scope.frequency == output_scope.frequency
+                and scope.amplitude == output_scope.amplitude
+                and scope.phase == output_scope.phase
+                for output_scope in output
+            )

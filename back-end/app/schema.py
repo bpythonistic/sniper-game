@@ -13,9 +13,6 @@ from typing import Annotated, Generator
 from fastapi.params import Depends
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Session, create_engine
-from dotenv import load_dotenv
-
-load_dotenv()
 
 DEFAULT_CONNECTION_STRING = os.getenv(
     "DATABASE_URL", "postgresql+psycopg://postgres@localhost:5432/nyquist_db"

@@ -8,9 +8,6 @@ It includes:
 
 import os
 
-# import json
-from dotenv import load_dotenv
-
 # from pathlib import Path
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,8 +22,6 @@ from app.schema import (
     User,
     SessionDep,
 )
-
-load_dotenv()
 
 FRONTEND_ORIGINS = [
     os.getenv("FRONTEND_URL", "http://localhost:5173"),
@@ -122,14 +117,8 @@ def create_scope(scope: ScopeModel, session: SessionDep) -> ScopeModel:
     """
     Creates a new sniper scope with the given frequency, amplitude and phase.
 
-    :param name: The name of the sniper scope.
-    :type name: str
-    :param frequency: The frequency of the sine wave in Hz.
-    :type frequency: float
-    :param amplitude: The amplitude of the sine wave.
-    :type amplitude: float
-    :param phase: The phase shift of the sine wave in radians (default is 0).
-    :type phase: float
+    :param scope: The ScopeModel instance containing the scope details.
+    :type scope: ScopeModel
     """
     session.add(scope)
     session.commit()
@@ -182,15 +171,18 @@ async def websocket_endpoint(
             time_points = [0.001 * i for i in range(1000)]
             signal_values = [signal_function(t) for t in time_points]
             while True:
-                result: UpdateScopeModel = await websocket.receive_json()
+                signal_function = generate_signal(frequency)
+                signal_values = [signal_function(t) for t in time_points]
                 await websocket.send_json(
                     ScopeOutputModel(
                         message="Real-time signal update",
-                        frequency=result.frequency,
+                        frequency=frequency,
                         time_values=time_points,
                         signal_values=signal_values,
                     )
                 )
+                result: UpdateScopeModel = await websocket.receive_json()
+                frequency = result.frequency
     except HTTPException as e:
         print(f"HTTP error: {e.detail}")
     finally:
